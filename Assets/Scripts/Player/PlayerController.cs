@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (hit.rigidbody != null)
                 {
+                    Debug.Log(hit.rigidbody);
                     GameObject target = hit.transform.gameObject;
                     PlayerController controllerScript = target.AddComponent<PlayerController>() as PlayerController;
                     CopyValues(controllerScript);
@@ -141,7 +142,6 @@ public class PlayerController : MonoBehaviour
                     camera.transform.position = target.transform.position;
                     GameObject targetGroundCheck = target.transform.GetChild(1).gameObject;
                     controllerScript.groundCheck = targetGroundCheck.transform;
-                    Debug.Log(hit.rigidbody);
                     Destroy(gameObject);
                 }
             }
