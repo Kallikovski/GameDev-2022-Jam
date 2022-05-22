@@ -4,35 +4,14 @@ using UnityEngine;
 
 public class CharacterTransfer : MonoBehaviour
 {
+    private bool transferActive = false;
     private void Update()
     {
-        Transfer();
-    }
-
-    private void Transfer()
-    {
+        //Transfer();
+        transferActive = false;
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                //Debug.Log(hit);
-                if (hit.rigidbody != null)
-                {
-                    Debug.Log(hit.rigidbody);
-                    GameObject target = hit.transform.gameObject;
-                    MovementInput movementInputScript = target.AddComponent<MovementInput>() as MovementInput;
-                    CameraController cameraScript = target.AddComponent<CameraController>() as CameraController;
-                    CharacterTransfer characterTransferScript = target.AddComponent<CharacterTransfer>() as CharacterTransfer;
-                    GameObject targetCameraPivot = target.transform.GetChild(0).gameObject;
-                    Camera camera = Camera.main;
-                    camera.transform.SetParent(targetCameraPivot.transform);
-                    camera.transform.position = target.transform.position;
-                    Destroy(gameObject);
-                }
-            }
+            transferActive = true;
         }
     }
 
@@ -51,11 +30,38 @@ public class CharacterTransfer : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             Debug.Log("Did Hit");
+            if (transferActive)
+            {
+                Debug.Log("Did Transfer");
+                if (hit.rigidbody != null)
+                {
+                    Transfer(hit);
+                }
+            }
         }
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             Debug.Log("Did not Hit");
         }
+    }
+    private void Transfer(RaycastHit hit)
+    {
+        Debug.Log(hit.rigidbody);
+
+        // Get Gameobject
+        GameObject target = hit.transform.gameObject;
+
+        // Attach Scripts
+        MovementInput movementInputScript = target.AddComponent<MovementInput>() as MovementInput;
+        CameraController cameraScript = target.AddComponent<CameraController>() as CameraController;
+        CharacterTransfer characterTransferScript = target.AddComponent<CharacterTransfer>() as CharacterTransfer;
+
+        // Place Camera
+        GameObject targetCameraPivot = target.transform.GetChild(0).gameObject;
+        Camera camera = Camera.main;
+        camera.transform.SetParent(targetCameraPivot.transform);
+        camera.transform.position = target.transform.position;
+        Destroy(gameObject);
     }
 }

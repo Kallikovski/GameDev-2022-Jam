@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class UIPauseMenuController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Animator transition;
+    public void onBackToMenu()
     {
-        
+        StartCoroutine(LoadLevel("Menu"));
     }
 
-    // Update is called once per frame
-    void Update()
+    public void onOpenControlls()
     {
-        
+
+    }
+
+    public void onAudioSlide()
+    {
+
+    }
+
+    IEnumerator LoadLevel(string levelName)
+    {
+        transition.SetTrigger("Start");
+
+        yield return new WaitForSeconds(1);
+
+        SceneManager.LoadScene(levelName);
     }
 }
