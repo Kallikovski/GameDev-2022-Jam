@@ -26,17 +26,18 @@ public class CharacterTransfer : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             Debug.Log("Did Hit");
             if (transferActive)
             {
                 Debug.Log("Did Transfer");
-                if (hit.rigidbody != null)
-                {
-                    Transfer(hit);
-                }
+                //if (hit.rigidbody != null)
+                //{
+                //    Transfer(hit);
+                //}
+                Transfer(hit);
             }
         }
         else
