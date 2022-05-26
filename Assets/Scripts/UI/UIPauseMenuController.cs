@@ -16,11 +16,6 @@ public class UIPauseMenuController : MonoBehaviour
 
     }
 
-    public void onAudioSlide()
-    {
-
-    }
-
     IEnumerator LoadLevel(string levelName)
     {
         transition.SetTrigger("Start");
