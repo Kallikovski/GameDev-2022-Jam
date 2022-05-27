@@ -8,28 +8,31 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float projectileGravity;
     [SerializeField] private float projectileLifeTime;
 
-    private Rigidbody rb;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = gameObject.GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * projectileVelocity);
-    }
-
     private void FixedUpdate()
     {
-        //rb.AddForce(new Vector3(0, -1.0f, 0) * rb.mass * (projectileGravity - 9.81f));
-        //rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, projectileVelocity);
+        transform.Translate(Vector3.forward * projectileVelocity);
     }
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(rb.velocity);
         projectileLifeTime -= Time.deltaTime;
         if(projectileLifeTime <= 0)
         {
             Destroy(gameObject);
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.tag);
+        if(other.gameObject.tag == "Enemy")
+        {
+            // SetObject property
+        }
+        if(other.gameObject.tag == "Player")
+        {
+            // update scriptable Object PlayerStats
+        }
+        //Animation?
+        Destroy(gameObject);
     }
 }

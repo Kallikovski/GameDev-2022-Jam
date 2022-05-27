@@ -28,8 +28,8 @@ public class CharacterTransfer : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            //Debug.Log("Did Hit");
             if (transferActive)
             {
                 Debug.Log("Did Transfer");
@@ -42,8 +42,8 @@ public class CharacterTransfer : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            Debug.Log("Did not Hit");
+           // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            //Debug.Log("Did not Hit");
         }
     }
     private void Transfer(RaycastHit hit)
@@ -52,6 +52,14 @@ public class CharacterTransfer : MonoBehaviour
 
         // Get Gameobject
         GameObject target = hit.transform.gameObject;
+
+        // Update Tags
+        target.tag = "Player";
+
+        // Remove Script
+
+        MovementInputAI movementInputScriptAI = target.GetComponent<MovementInputAI>() as MovementInputAI;
+        Destroy(movementInputScriptAI);
 
         // Attach Scripts
         MovementInput movementInputScript = target.AddComponent<MovementInput>() as MovementInput;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActionInput : MonoBehaviour
 {
-    void Update()
+    private void Update()
     {
         ActionShoot Script = GetComponent<ActionShoot>();
         if (Input.GetMouseButtonDown(0))

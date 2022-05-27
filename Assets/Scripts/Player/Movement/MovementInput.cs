@@ -47,9 +47,9 @@ public class MovementInput : MonoBehaviour
             }
         }
 
-        Vector3 moveDircetion = new Vector3(moveX, 0, moveZ).normalized;
+        Vector3 moveDirection = new Vector3(moveX, 0, moveZ).normalized;
 
-        Script.SetVelocity(moveDircetion);
+        Script.SetVelocity(moveDirection);
         Script.SetRotation(mouseX);
         Script.SetJumpVelocity(jump);
 
