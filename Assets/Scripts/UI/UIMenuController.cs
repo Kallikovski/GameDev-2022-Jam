@@ -6,17 +6,13 @@ using UnityEngine;
 public class UIMenuController : MonoBehaviour
 {
     [SerializeField] private Animator transition;
+    
     public void onGameStart()
     {
         StartCoroutine(LoadLevel("Game"));
     }
     
     public void onOpenControlls()
-    {
-
-    }
-
-    public void onAudioSlide()
     {
 
     }
