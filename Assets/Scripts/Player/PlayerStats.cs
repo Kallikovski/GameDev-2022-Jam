@@ -1,61 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+[CreateAssetMenu(menuName = "PlayerStats", order = 2)]
+public class PlayerStats : ScriptableObject
 {
-    private static PlayerStats instance = null;
+    public int playerHealthPoints;
+    public int playerSoulFragments;
 
-    [SerializeField] private int soulFragments;
-    [SerializeField] private int healthPoints;
-    [SerializeField] private GameManager gameManager;
-    private int currentSoulFragments { get; set; }
-    private int currentHealthPoints { get; set; }
+    public int playerScore;
 
-    private PlayerStats()
+    public PlayerStats()
     {
+        playerHealthPoints = 100;
+        playerSoulFragments = 3;
+
+        playerScore = 0;
     }
 
-    public static PlayerStats Instance
+    public void UpdatePlayerHealthPoints(int healthPoints)
     {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new PlayerStats();
-            }
-            return instance;
-        }
-    }
-    private void Start()
-    {
-        gameManager.onGameStateChange += SetStartValues;
+        playerHealthPoints = healthPoints;
     }
 
-    // Update is called once per frame
-    private void Update()
+    public void UpdatePlayerSoulFragments(int soulFragments)
     {
-        if (currentHealthPoints == 0)
-        {
-            //Soul transfere state?
-        }
-        if (currentHealthPoints == 0 && currentSoulFragments == 0)
-        {
-            UpdateGameState(GameManager.State.End);
-        }
+        playerSoulFragments = soulFragments;
     }
 
-    private void UpdateGameState(GameManager.State state)
+    public void UpdatePlayerScore(int score)
     {
-        gameManager.UpdateGameState(state);
-    }
-
-    private void SetStartValues(GameManager.State state)
-    {
-        if (state == GameManager.State.Start)
-        {
-            currentHealthPoints = healthPoints;
-            currentSoulFragments = soulFragments;
-        }
+        playerScore = score;
     }
 }
+

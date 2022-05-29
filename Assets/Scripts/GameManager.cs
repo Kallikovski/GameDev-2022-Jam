@@ -22,6 +22,14 @@ public class GameManager : ScriptableObject
         if(onGameStateChange != null)
         {
             currentState = state;
+            if(currentState != State.Running)
+            {
+                //Time.timeScale = 0.0f;
+            }
+            else
+            {
+                //Time.timeScale = 1.0f;
+            }
             onGameStateChange(currentState);
         }
     }

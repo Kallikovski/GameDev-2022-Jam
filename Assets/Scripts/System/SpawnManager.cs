@@ -15,22 +15,46 @@ public class SpawnManager : MonoBehaviour
 
     private float activeRunTime;
     private float activeSpawnTime;
+    private bool canSpawn;
     // Start is called before the first frame update
     private void Awake()
     {
-        activeRunTime = 0;
+       gameManager.onGameStateChange += onUpdateSpawner;
+       activeRunTime = 0;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        activeRunTime += Time.deltaTime;
-        activeSpawnTime += Time.deltaTime;
-        if (activeSpawnTime >= spawnFrequency)
+        if (canSpawn)
         {
-            Debug.Log(Mathf.Floor(activeRunTime));
-            DecideEnemySpawn();
-            activeSpawnTime -= spawnFrequency;
+            activeRunTime += Time.deltaTime;
+            activeSpawnTime += Time.deltaTime;
+            if (activeSpawnTime >= spawnFrequency)
+            {
+                Debug.Log(Mathf.Floor(activeRunTime));
+                DecideEnemySpawn();
+                activeSpawnTime -= spawnFrequency;
+            }
+        }
+    }
+
+    private void onUpdateSpawner(GameManager.State state)
+    {
+        canSpawn = false;
+        switch (state)
+        {
+            case GameManager.State.Start:
+                break;
+            case GameManager.State.Running:
+                canSpawn = true;
+                break;
+            case GameManager.State.Pause:
+                break;
+            case GameManager.State.End:
+                break;
+            default:
+                break;
         }
     }
 
@@ -54,7 +78,7 @@ public class SpawnManager : MonoBehaviour
     private void SpawnPrefab(GameObject prefab)
     {
         int randSpawnIndex = Random.Range(0, spawnRegions.Count);
-        Debug.Log(spawnRegions[randSpawnIndex].position);
+        //Debug.Log(spawnRegions[randSpawnIndex].position);
         Instantiate(prefab, spawnRegions[randSpawnIndex].position, spawnRegions[randSpawnIndex].rotation);
     }
 }

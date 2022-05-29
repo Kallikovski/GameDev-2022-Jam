@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float projectileGravity;
     [SerializeField] private float projectileLifeTime;
 
+    [SerializeField] private PlayerStats player;
+
     private void FixedUpdate()
     {
         transform.Translate(Vector3.forward * projectileVelocity);
@@ -27,10 +29,11 @@ public class Projectile : MonoBehaviour
         if(other.gameObject.tag == "Enemy")
         {
             // SetObject property
+            Destroy(other.gameObject);
         }
         if(other.gameObject.tag == "Player")
         {
-            // update scriptable Object PlayerStats
+            player.UpdatePlayerHealthPoints(player.playerHealthPoints - 35);
         }
         //Animation?
         Destroy(gameObject);

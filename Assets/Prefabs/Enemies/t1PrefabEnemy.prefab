@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1842171028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1842171029}
+  m_Layer: 0
+  m_Name: ProjectileSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1842171029
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842171028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2519524716325817019}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2519524714720327142
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,6 +107,8 @@ GameObject:
   - component: {fileID: 2519524716325817012}
   - component: {fileID: 2519524716325817013}
   - component: {fileID: 3284460101812843583}
+  - component: {fileID: 173441203}
+  - component: {fileID: 173441204}
   m_Layer: 0
   m_Name: t1PrefabEnemy
   m_TagString: Enemy
@@ -97,6 +129,7 @@ Transform:
   m_Children:
   - {fileID: 2519524714720327145}
   - {fileID: 2519524715057088497}
+  - {fileID: 1842171029}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -208,9 +241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165a2b25f34835741ab728f3acb713cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 10
   mouseSensetivity: 200
-  jumpHeight: 3
+  jumpHeight: 5
 --- !u!114 &3284460101812843583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +256,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47fc072b194ec694fb2a3ba31b7a5640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToPlayer: 5
+  distanceToPlayer: 3
+--- !u!114 &173441203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2519524716325817010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1dff35ebf742040b68dc1ec438fc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &173441204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2519524716325817010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65d5ebebebfd1f4ea21c8b422af9ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 2486098261012843550, guid: 074181611e1568a42bfcca263375e35c, type: 3}
+  projectileSpawn: {fileID: 1842171029}
+  actionCooldown: 1
 --- !u!1 &2519524716721215296
 GameObject:
   m_ObjectHideFlags: 0

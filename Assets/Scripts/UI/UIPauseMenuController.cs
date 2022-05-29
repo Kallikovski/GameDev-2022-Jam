@@ -68,6 +68,11 @@ public class UIPauseMenuController : MonoBehaviour
         pauseMenu.SetActive(true);
     }
 
+    public void onRestart()
+    {
+        StartCoroutine(LoadLevel("Game"));
+    }
+
 
     IEnumerator LoadLevel(string levelName)
     {

@@ -24,11 +24,11 @@ public class ActionShoot : MonoBehaviour, ICharacterAction
     }
     public void SpawnProjectile()
     {
-        Debug.Log(lastActionTimeAgo);
         if (canShoot)
         {
             Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
             lastActionTimeAgo = 0;
+            Debug.Log(gameObject + ": Shot!");
         }
     }
 }
