@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float projectileVelocity;
-    [SerializeField] private float projectileGravity;
+    [SerializeField] private int projectileDamage;
     [SerializeField] private float projectileLifeTime;
 
     [SerializeField] private PlayerStats player;
@@ -14,7 +14,6 @@ public class Projectile : MonoBehaviour
     {
         transform.Translate(Vector3.forward * projectileVelocity);
     }
-    // Update is called once per frame
     private void Update()
     {
         projectileLifeTime -= Time.deltaTime;
@@ -25,17 +24,27 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.tag);
         if(other.gameObject.tag == "Enemy")
         {
             // SetObject property
+            if(gameObject.tag == other.gameObject.tag)
+            {
+                Destroy(gameObject);
+            }
+            player.playerScore += 10;
             Destroy(other.gameObject);
         }
         if(other.gameObject.tag == "Player")
         {
-            player.UpdatePlayerHealthPoints(player.playerHealthPoints - 35);
+            if(gameObject.tag == other.gameObject.tag)
+            {
+                Destroy(gameObject);
+            }
+            if(gameObject.tag == "Enemy")
+            {
+                player.UpdatePlayerHealthPoints(player.playerHealthPoints - 35);
+            }
         }
-        //Animation?
         Destroy(gameObject);
     }
 }

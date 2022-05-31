@@ -5,53 +5,78 @@ using UnityEngine;
 public class CharacterTransfer : MonoBehaviour
 {
     private bool transferActive = false;
-    private void Update()
+    public GameManager gameManager;
+    public PlayerStats player;
+    public bool getInput;
+
+    private void Awake()
     {
-        //Transfer();
-        transferActive = false;
-        if (Input.GetMouseButtonDown(0))
+        if (gameManager)
         {
-            transferActive = true;
+            gameManager.onGameStateChange += updateGetInput;
         }
     }
-
-    private void FixedUpdate()
+    public void Initialize()
     {
-        // Bit shift the index of the layer (8) to get a bit mask
-        int layerMask = 1 << 8;
+        gameManager.onGameStateChange += updateGetInput;
+    }
 
-        // This would cast rays only against colliders in layer 8.
-        // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
-        layerMask = ~layerMask;
-
+    private void Update()
+    {
+        Debug.Log(gameManager.currentState);
+        if(player.playerHealthPoints <= 0 && player.playerSoulFragments > 0)
+        {
+            gameManager.UpdateGameState(GameManager.State.Transfer);
+        }
+        if (player.playerHealthPoints <= 0 && player.playerSoulFragments <= 0)
+        {
+            gameManager.UpdateGameState(GameManager.State.End);
+        }
+        transferActive = false;
+        if (getInput)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                transferActive = true;
+            }
+        }
         RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
+
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
         {
-            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             //Debug.Log("Did Hit");
             if (transferActive)
             {
                 Debug.Log("Did Transfer");
-                //if (hit.rigidbody != null)
-                //{
-                //    Transfer(hit);
-                //}
+                gameManager.UpdateGameState(GameManager.State.Running);
                 Transfer(hit);
             }
         }
         else
         {
-           // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            // Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             //Debug.Log("Did not Hit");
+        }
+    }
+
+    private void updateGetInput(GameManager.State state)
+    {
+        if (state == GameManager.State.Transfer)
+        {
+            getInput = true;
+        }
+        else
+        {
+            getInput = false;
         }
     }
     private void Transfer(RaycastHit hit)
     {
-        Debug.Log(hit.rigidbody);
-
         // Get Gameobject
         GameObject target = hit.transform.gameObject;
+
+        Debug.Log(target != null);
 
         // Update Tags
         target.tag = "Player";
@@ -60,17 +85,26 @@ public class CharacterTransfer : MonoBehaviour
 
         MovementInputAI movementInputScriptAI = target.GetComponent<MovementInputAI>() as MovementInputAI;
         Destroy(movementInputScriptAI);
-
-        // Attach Scripts
-        MovementInput movementInputScript = target.AddComponent<MovementInput>() as MovementInput;
-        CameraController cameraScript = target.AddComponent<CameraController>() as CameraController;
-        CharacterTransfer characterTransferScript = target.AddComponent<CharacterTransfer>() as CharacterTransfer;
+        ActionInputAI actionInputScriptAI = target.GetComponent<ActionInputAI>() as ActionInputAI;
+        Destroy(actionInputScriptAI);
 
         // Place Camera
         GameObject targetCameraPivot = target.transform.GetChild(0).gameObject;
         Camera camera = Camera.main;
         camera.transform.SetParent(targetCameraPivot.transform);
         camera.transform.position = target.transform.position;
+        player.playerHealthPoints = 100;
+        player.playerSoulFragments -= 1;
+
+        target.transform.rotation = gameObject.transform.rotation;
+
+        // Attach Scripts
+
+        MovementInput movementInputScript = target.AddComponent<MovementInput>() as MovementInput;
+        ActionInput actionInputScript = target.AddComponent<ActionInput>() as ActionInput;
+        actionInputScript.Initialize();
+        CharacterTransfer characterTransferScript = target.AddComponent<CharacterTransfer>() as CharacterTransfer;
+        actionInputScript.Initialize();
         Destroy(gameObject);
     }
 }

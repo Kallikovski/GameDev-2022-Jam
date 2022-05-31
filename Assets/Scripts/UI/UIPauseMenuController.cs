@@ -11,6 +11,8 @@ public class UIPauseMenuController : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject endMenu;
     [SerializeField] private GameObject controlMenu;
+
+    [SerializeField] private PlayerStats player;
     private void Awake()
     {
         gameManager.onGameStateChange += onUpdateUI;
@@ -34,6 +36,9 @@ public class UIPauseMenuController : MonoBehaviour
         {
             case GameManager.State.Start:
                 startMenu.SetActive(true);
+                player.playerHealthPoints = 100;
+                player.playerSoulFragments = 3;
+                player.playerScore = 0;
                 break;
             case GameManager.State.Running:
                 break;
@@ -42,6 +47,8 @@ public class UIPauseMenuController : MonoBehaviour
                 break;
             case GameManager.State.End:
                 endMenu.SetActive(true);
+                player.playerHealthPoints = 0;
+                player.playerSoulFragments = 0;
                 break;
             default:
                 break;
@@ -70,7 +77,7 @@ public class UIPauseMenuController : MonoBehaviour
 
     public void onRestart()
     {
-        StartCoroutine(LoadLevel("Game"));
+        StartCoroutine(LoadLevel("Menu"));
     }
 
 

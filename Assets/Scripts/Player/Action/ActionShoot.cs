@@ -26,9 +26,9 @@ public class ActionShoot : MonoBehaviour, ICharacterAction
     {
         if (canShoot)
         {
-            Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
+            GameObject projectile = Instantiate(projectilePrefab, projectileSpawn.position, projectileSpawn.rotation);
+            projectile.tag = gameObject.tag;
             lastActionTimeAgo = 0;
-            Debug.Log(gameObject + ": Shot!");
         }
     }
 }

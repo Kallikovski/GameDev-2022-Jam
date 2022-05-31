@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "GameManager", order = 1)]
 public class GameManager : ScriptableObject
 {
-    public enum State { Start, Running, Pause, End};
+    public enum State { Start, Running, Transfer, Pause, End};
 
     public State currentState;
 
@@ -22,15 +22,15 @@ public class GameManager : ScriptableObject
         if(onGameStateChange != null)
         {
             currentState = state;
-            if(currentState != State.Running)
+            onGameStateChange(currentState);
+            if(currentState == State.Running)
             {
-                //Time.timeScale = 0.0f;
+                Cursor.lockState = CursorLockMode.Locked;
             }
             else
             {
-                //Time.timeScale = 1.0f;
+                Cursor.lockState = CursorLockMode.None;
             }
-            onGameStateChange(currentState);
         }
     }
     

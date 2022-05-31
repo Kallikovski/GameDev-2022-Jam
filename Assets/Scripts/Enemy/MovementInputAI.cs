@@ -6,26 +6,48 @@ public class MovementInputAI : MonoBehaviour
 {
     private Transform playerPosition;
     [SerializeField] private float distanceToPlayer;
+    public GameManager gameManager;
+    public bool getInput;
 
-    private void Start()
+    private void Awake()
     {
-        
+        getInput = true;
+        gameManager.onGameStateChange += updateGetInput;
     }
 
     // Update is called once per frame
     private void Update()
     {
+
         Vector3 moveDirection = new Vector3(0f, 0f, 0f);
         playerPosition = GameObject.FindWithTag("Player").transform;
         Vector3 distanceVector = playerPosition.position - transform.position;
         MoveVelocity Script = GetComponent<MoveVelocity>();
-        if(distanceVector.magnitude > distanceToPlayer)
+        if (getInput)
         {
-            moveDirection = (playerPosition.position - transform.position).normalized;
+            if (distanceVector.magnitude > distanceToPlayer)
+            {
+                moveDirection = (playerPosition.position - transform.position).normalized;
+            }
         }
-        //transform.LookAt(playerPosition);
+        else
+        {
+            moveDirection = new Vector3(0f, 0f, 0f);
+        }
+        transform.LookAt(playerPosition.position);
         Script.SetVelocity(moveDirection);
     }
 
+    private void updateGetInput(GameManager.State state)
+    {
+        if (state == GameManager.State.Running)
+        {
+            getInput = true;
+        }
+        else
+        {
+            getInput = false;
+        }
+    }
 
 }

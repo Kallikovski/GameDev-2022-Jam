@@ -32,7 +32,6 @@ public class SpawnManager : MonoBehaviour
             activeSpawnTime += Time.deltaTime;
             if (activeSpawnTime >= spawnFrequency)
             {
-                Debug.Log(Mathf.Floor(activeRunTime));
                 DecideEnemySpawn();
                 activeSpawnTime -= spawnFrequency;
             }
@@ -62,11 +61,11 @@ public class SpawnManager : MonoBehaviour
     {
         if (activeRunTime >= 10)
         {
-            SpawnPrefab(t2PrefabEnemy);
+            SpawnPrefab(t3PrefabEnemy);
         }
         if (activeRunTime >= 5)
         {
-            SpawnPrefab(t3PrefabEnemy);
+            SpawnPrefab(t2PrefabEnemy);
         }
         else
         {
@@ -79,6 +78,8 @@ public class SpawnManager : MonoBehaviour
     {
         int randSpawnIndex = Random.Range(0, spawnRegions.Count);
         //Debug.Log(spawnRegions[randSpawnIndex].position);
-        Instantiate(prefab, spawnRegions[randSpawnIndex].position, spawnRegions[randSpawnIndex].rotation);
+        Vector3 SpawnPosition = spawnRegions[randSpawnIndex].position;
+        SpawnPosition.y = SpawnPosition.y - 8;
+        Instantiate(prefab, SpawnPosition, spawnRegions[randSpawnIndex].rotation);
     }
 }

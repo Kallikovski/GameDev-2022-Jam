@@ -7,6 +7,7 @@ public class UIPlayerController : MonoBehaviour
 {
     [SerializeField] private Text HealthPointsText;
     [SerializeField] private Text SoulFragmentsText;
+    [SerializeField] private Text ScoreText;
 
     [SerializeField] private PlayerStats player;
 
@@ -14,14 +15,19 @@ public class UIPlayerController : MonoBehaviour
     {
         UpdateHealthPointsText();
         UpdateSoulFragmentsText();
+        UpdateScoreText();
     }
     private void UpdateHealthPointsText()
     {
-        HealthPointsText.text = player.playerHealthPoints.ToString();
+        HealthPointsText.text = "Health: " + player.playerHealthPoints.ToString();
     }
 
     private void UpdateSoulFragmentsText()
     {
         SoulFragmentsText.text = player.playerSoulFragments.ToString();
+    }
+    private void UpdateScoreText()
+    {
+        ScoreText.text = "Score: " + player.playerScore.ToString();
     }
 }
